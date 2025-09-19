@@ -1,0 +1,66 @@
+## Hypothesis 策略 (Strategies) 速查表
+
+该表格提供了 Python 属性测试库 Hypothesis 中常用策略 (Strategies) 的概要，用于自动生成测试数据。
+
+| 策略名称             | 常用参数                                      | 生成示例/说明                                                         |
+| :------------------- | :-------------------------------------------- | :-------------------------------------------------------------------- |
+| **基础类型**         |                                               |                                                                       |
+| `booleans()`         | -                                             | `True`, `False`                                                       |
+| `integers()`         | `min_value`, `max_value`                      | `1`, `-5`, `100`                                                      |
+| `floats()`           | `min_value`, `max_value`, `allow_nan`         | `3.14`, `-2.0`                                                        |
+| `text()`             | `min_size`, `max_size`, `alphabet`            | `"abc"`, `"Hello"`                                                    |
+| `binary()`           | `min_size`, `max_size`                        | `b"abc"`, `b"\x00\xff"`                                               |
+| `characters()`       | `whitelist_categories`                        | `'a'`, `'Z'`, `'!'`                                                   |
+| **组合与容器**       |                                               |                                                                       |
+| `lists()`            | `elements`, `min_size`, `max_size`, `unique`  | `[1, 2, 3]`, `[]`                                                     |
+| `sets()`             | `elements`, `min_size`, `max_size`            | `{1, 2, 3}`, `set()`                                                  |
+| `dictionaries()`     | `keys`, `values`, `min_size`, `max_size`      | `{'a': 1, 'b': 2}`                                                    |
+| `tuples()`           | strategies as positional arguments            | `(True, 42)`, `(1, "a")`                                              |
+| `fixed_dictionaries()`| `mapping` (dict of strategies)                | `{'name': st.text(), 'age': st.integers()}`                           |
+| **特定领域**         |                                               |                                                                       |
+| `emails()`           | -                                             | `"user@example.com"`                                                  |
+| `uuids()`            | -                                             | `UUID('12345678-1234-5678-1234-567812345678')`                        |
+| `ip_addresses()`     | `v4`, `v6`                                    | `IPv4Address('192.168.1.1')`                                          |
+| **日期时间**         |                                               |                                                                       |
+| `dates()`            | `min_value`, `max_value`                      | `date(2023, 1, 1)`                                                    |
+| `datetimes()`        | `min_value`, `max_value`                      | `datetime(2023, 1, 1, 12, 0, 0)`                                      |
+| `times()`            | `min_value`, `max_value`                      | `time(12, 0, 0)`                                                      |
+| `timedeltas()`       | `min_value`, `max_value`                      | `timedelta(days=1)`                                                   |
+| **数字类型**         |                                               |                                                                       |
+| `decimals()`         | `min_value`, `max_value`, `allow_nan`         | `Decimal('10.5')`                                                     |
+| `fractions()`        | `min_value`, `max_value`                      | `Fraction(1, 2)`                                                      |
+| `complex_numbers()`  | `min_magnitude`, `max_magnitude`              | `1+2j`                                                                |
+| **选择与抽样**       |                                               |                                                                       |
+| `sampled_from()`     | `sequence`                                    | `sampled_from(['red', 'green', 'blue'])` → `'green'`                  |
+| `one_of()`           | strategies as positional arguments            | `one_of(st.integers(), st.text())` → `42` or `"hello"`                |
+| **特殊与自定义**     |                                               |                                                                       |
+| `none()`             | -                                             | `None`                                                                |
+| `just()`             | `value`                                       | `just(42)` → `42`                                                     |
+| `from_regex()`       | `regex`, `fullmatch`                          | `from_regex(r'[A-Z][0-9]{3}')` → `"A123"`                            |
+| `builds()`           | `func`, `**kwargs` (strategies for args)      | `builds(Person, name=st.text(), age=st.integers())`                   |
+| `data()`             | -                                             | 生成 `data` 对象，用于在测试函数内按需 `draw` 多种策略               |
+| `composite()`        | -                                             | 装饰器，用于创建自定义复合策略                                         |
+
+
+### 参数说明
+- **`min_value`/`max_value`**: 数值范围限制
+- **`min_size`/`max_size`**: 大小/长度限制  
+- **`allow_nan`**: 是否允许 NaN 值
+- **`alphabet`**: 允许的字符集
+- **`whitelist_categories`**: 允许的 Unicode 类别
+- **`elements`**: 元素生成策略
+- **`unique`**: 元素是否唯一
+- **`v4`/`v6`**: 生成 IPv4/IPv6 地址
+- **`sequence`**: 抽样序列
+- **`regex`**: 正则表达式模式
+- **`fullmatch`**: 是否完全匹配
+- **`func`**: 要调用的函数或类
+- **`**kwargs`**: 参数字典（值为策略）
+
+### 使用提示
+- 策略可组合使用，如 `st.lists(st.integers())`
+- 使用 `.filter()` 方法过滤数据
+- 使用 `.map()` 方法转换数据
+- 合理设置范围参数提高测试效率
+
+                                             
