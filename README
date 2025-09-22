@@ -38,7 +38,6 @@
 | `just()`             | `value`                                       | `just(42)` → `42`                                                     |
 | `from_regex()`       | `regex`, `fullmatch`                          | `from_regex(r'[A-Z][0-9]{3}')` → `"A123"`                            |
 | `builds()`           | `func`, `**kwargs` (strategies for args)      | `builds(Person, name=st.text(), age=st.integers())`                   |
-| `data()`             | -                                             | 生成 `data` 对象，用于在测试函数内按需 `draw` 多种策略               |
 | `composite()`        | -                                             | 装饰器，用于创建自定义复合策略                                         |
 
 
